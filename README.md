@@ -1,4 +1,3 @@
-| `footer.md.example` | Optional "built with" footer. Copy to `footer.md` to turn it on. |
 # Job Application Kit
 
 Keep your resume as plain Markdown in a private GitHub repository, tailor it for each job, and let GitHub build the Word, PDF and text versions for you. Two [Claude Code](https://claude.com/claude-code) skills coach you through writing it in your own voice.
@@ -26,6 +25,7 @@ master_resume.md ──(tailor-application skill)──▶ applications/<job>/re
 | `public_resume.md` | Short version for the optional website. |
 | `applications/` | One folder per job. Includes a finished example. |
 | `TODO.md` | Open questions and things to look up. |
+| `footer.md.example` | Optional "built with" footer. Copy to `footer.md` to turn it on. |
 | `.claude/skills/resume-coach/` | Skill: builds and reviews your master resume with you. |
 | `.claude/skills/tailor-application/` | Skill: tailors a resume and writes a cover letter for one job. |
 | `docs/writing-guide.md` | Voice, style and honesty rules the skills follow. Edit to taste. |
