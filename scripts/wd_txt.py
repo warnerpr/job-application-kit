@@ -147,7 +147,7 @@ def main(path):
     if not parsed[3]:
         return  # no jobs in the tailored layout: not a resume
     out = src.with_suffix(".wd.txt")
-    out.write_text(render(*parsed), encoding="utf-8")
+    out.write_text(render(*parsed), encoding="utf-8", newline="\n")
     print(f"Wrote {out}")
 
 
