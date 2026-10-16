@@ -11,6 +11,7 @@ on:
       - 'applications/**/*.md'
       - 'footer.md'
       - 'scripts/build.sh'
+      - 'scripts/wd_txt.py'
       - 'scripts/pdf.css'
       - '.github/workflows/build.yml'
   workflow_dispatch:

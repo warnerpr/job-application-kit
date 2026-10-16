@@ -2,6 +2,8 @@
 
 Rochester, NY · jordan.lee@example.com · +1-555-555-0100 · linkedin.com/in/jordanlee-example
 
+<!-- address: 100 Example St, Rochester, NY 14600 -->
+
 ## Summary
 
 Engineering manager with 15 years in backend and platform engineering. Leads the team that runs the shared Kubernetes, CI/CD and observability platform for 40 product teams at Example Health, and made on-call boring along the way.

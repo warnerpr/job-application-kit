@@ -2,6 +2,8 @@
 
 Rochester, NY · jordan.lee@example.com · +1-555-555-0100 · [linkedin.com/in/jordanlee-example](https://www.linkedin.com/in/jordanlee-example/)
 
+<!-- address: 100 Example St, Rochester, NY 14600 -->
+
 <!--
 This is your MASTER resume: the long, detailed, true record of your career.
 Nobody sends it to an employer. Tailored resumes are cut from it.

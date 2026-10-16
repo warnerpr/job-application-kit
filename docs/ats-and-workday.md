@@ -8,8 +8,36 @@ Most large employers take applications through an applicant tracking system (ATS
 - This kit builds all three useful formats from your Markdown:
   - **`.docx`**: the safest choice for parsing.
   - **`.pdf`**: the nicest for a human to read. Text-based PDFs (like the ones built here) parse fine; scanned or image PDFs don't.
-  - **`.txt`**: plain text with the Markdown symbols removed, for "paste your resume" boxes.
-- A good routine: use the `.docx` for autofill, check every field, then attach the `.pdf` (or `.docx`) as the document the recruiter will see. Some systems keep the first file you uploaded, so check before you submit.
+  - **`.txt`**: plain text with the Markdown symbols removed, for "paste your resume" boxes. It includes your mailing address and drops the `+1` from your phone number.
+  - **`.wd.txt`** (tailored resumes only): a "Label: Value" version made for Workday's autofill. See below.
+- A good routine: use the `.wd.txt` or `.docx` for autofill, check every field, then attach the `.pdf` (or `.docx`) as the document the recruiter will see. Some systems keep the first file you uploaded, so check before you submit.
+
+## What we learned uploading to Workday
+
+From real uploads of a plain-text resume to a Workday application:
+
+1. **It wants a full mailing address.** Put yours in your resume as a hidden comment right after the contact line:
+   ```
+   <!-- address: 123 Main St, Town, ST 12345 -->
+   ```
+   It shows up only in the `.txt` and `.wd.txt` files, never in the PDF, Word file or website.
+2. **It rejects the country code on phone numbers.** The text files drop `+1`.
+3. **Commas in job titles get read as delimiters.** "Director, IT Cloud Services" was split in two. Slashes ("DevOps Manager / Engineer") were fine.
+4. **It can't untangle a combined company, location and date line**, especially with commas or parentheses in the company name ("Cyan, Inc. (acquired by Ciena, 2015)").
+
+`scripts/wd_txt.py` builds `<resume>.wd.txt` to work around all four. It puts every field on its own labelled line, splits company, location and dates apart, drops parenthetical notes from company names, and writes dates as MM/YYYY:
+
+```
+Job Title: Director, IT Cloud Services
+Company: Ciena Corporation
+Location: Petaluma, CA and remote
+From: 09/2020
+To: 05/2022
+Role Description:
+- Led a team of 12 …
+```
+
+It only understands the tailored layout below, so it skips the master resume and cover letters. It needs Python 3, which GitHub's build runner has.
 
 ## Structure that parses well
 
