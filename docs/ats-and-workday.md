@@ -28,7 +28,8 @@ From real uploads of a plain-text resume to a Workday application:
 6. **Labels didn't help.** A version with "Job Title:", "Company:" and similar labels on every line still got companies wrong, apparently at random. Our working theory is that Workday uses some kind of AI to find the fields, and unusual titles or internal names confuse it more than layout does. So the `.wd.txt` is values only, and plain, conventional job titles in your resume help more than formatting tricks.
 
 7. **Sections it has no field for confuse it.** It read Core Competencies as a job. The `.wd.txt` leaves out Core Competencies and Projects.
-8. **It ignored a categorized skills list.** The `.wd.txt` lists skills one per line, without category labels. Education is one value per line too (degree, field, school, year), with "BS" spelled out as "Bachelor's".
+8. **It ignores skills.** It skipped a categorized skills list, and still skipped it with one skill per line and no categories. The `.wd.txt` keeps the one-per-line list in case it helps elsewhere, but plan to enter skills by hand.
+9. **Education worked once it was one value per line** (degree, field, school, year), with "BS" spelled out as "Bachelor's".
 
 `scripts/wd_txt.py` builds `<resume>.wd.txt` to work around all of these. It puts every value on its own line in a fixed order (title, company, location, from, to, description), turns commas in job titles into "of", drops commas and parenthetical notes from company names, and writes dates as MM/YYYY:
 
