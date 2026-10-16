@@ -1,0 +1,39 @@
+name: Build documents
+
+# Turns every resume and cover letter into .txt, .docx and .pdf, then commits
+# the results back to the repository. Run `git pull` afterwards to get them.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'master_resume.md'
+      - 'public_resume.md'
+      - 'applications/**/*.md'
+      - 'scripts/build.sh'
+      - 'scripts/pdf.css'
+      - '.github/workflows/build.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pandoc and weasyprint
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq pandoc weasyprint fonts-dejavu
+
+      - name: Build
+        run: bash scripts/build.sh
+
+      - name: Commit generated files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add build applications
+          git diff --cached --quiet && { echo "No changes"; exit 0; }
+          git commit -m "Build documents from ${GITHUB_SHA::7}"
+          git push

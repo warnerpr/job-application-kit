@@ -1,0 +1,8 @@
+# Local scratch
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Deploy keys made during website setup; never commit these
+publish_key
+publish_key.pub
