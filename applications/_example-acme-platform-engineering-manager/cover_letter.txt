@@ -1,0 +1,20 @@
+Jordan Lee
+Rochester, NY · jordan.lee@example.com · +1-555-555-0100 · linkedin.com/in/jordanlee-example
+
+October 1, 2026
+
+Acme Corp Hiring Team
+Re: Platform Engineering Manager
+
+Dear Hiring Team,
+
+I'm applying for the Platform Engineering Manager role. I like running platforms that other engineers stop thinking about because they just work.
+
+At Example Health I lead the platform team that runs Kubernetes, CI/CD and observability for 40 product teams. We moved every service off hand-built VMs onto Kubernetes on AWS over 18 months without a customer-facing outage, and we cut on-call pages from about 30 a week to about 8 by fixing the noisiest alerts first.
+
+My team today is 10 people including two leads, which sits at the top of your range. I haven't managed managers yet, and I'd welcome growing into that.
+
+Thank you for your time. I'd be glad to talk.
+
+Sincerely,
+Jordan Lee
