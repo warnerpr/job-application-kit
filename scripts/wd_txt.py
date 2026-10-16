@@ -25,6 +25,11 @@ What it does differently from the plain .txt, based on real Workday uploads:
 - Company, location and dates are split apart. Parenthetical notes in the
   company name ("(acquired by Ciena, 2015)") are dropped.
 - Dates become MM/YYYY.
+- Core Competencies and Projects sections are left out (Workday read
+  competencies as a job and has no field for either).
+- Education is one value per line, with degrees spelled out ("BS" becomes
+  "Bachelor's").
+- Skills are one per line, without category labels.
 - The phone number loses its +1 country code.
 - The mailing address comes from a hidden comment in the resume,
   <!-- address: 123 Main St, Town, ST 12345 -->, which no other format shows.
@@ -143,11 +148,58 @@ def render(name, address, contact, jobs, sections):
         out += [f"- {d}" for d in job["description"]]
         out.append("")
     for s in sections:
-        if s["lines"] and "experience" not in s["title"].lower():
-            out.append(s["title"].upper())
+        title = s["title"].lower()
+        if not s["lines"] or any(w in title for w in SKIP_SECTIONS):
+            continue
+        out.append(s["title"].upper())
+        if "education" in title:
+            out += education_lines(s["lines"])
+        elif "skill" in title:
+            out += skill_lines(s["lines"])
+        else:
             out += s["lines"]
-            out.append("")
+        out.append("")
     return "\n".join(out).rstrip() + "\n"
+
+
+# Sections Workday has no place for. It read Core Competencies as a job.
+SKIP_SECTIONS = ("experience", "competenc", "project")
+
+DEGREES = [
+    (r"B\.?S\.?c?|B\.?A\.?|B\.?Eng\.?", "Bachelor's"),
+    (r"M\.?S\.?c?|M\.?A\.?|M\.?Eng\.?", "Master's"),
+    (r"Ph\.?D\.?", "Doctorate"),
+]
+
+
+def education_lines(lines):
+    """One value per line, with degree abbreviations spelled out.
+
+    "BS, Computer Engineering, Clarkson University, 2001" becomes four lines:
+    Bachelor's / Computer Engineering / Clarkson University / 2001.
+    """
+    out = []
+    for line in lines:
+        for part in re.split(r"\s*[,:]\s*", line):
+            for abbr, full in DEGREES:
+                if re.fullmatch(abbr, part):
+                    part = full
+            if part:
+                out.append(part)
+        out.append("")
+    return out[:-1]
+
+
+def skill_lines(lines):
+    """One skill per line, without the category labels or notes like "(light use)"."""
+    out = []
+    for line in lines:
+        values = line.split(":", 1)[-1]
+        for skill in re.split(r"\s*[·,]\s*", values):
+            skill = re.sub(r"\s*\([^)]*\)", "", skill).strip()
+            if skill:
+                out.append(skill)
+    return out
 
 
 def main(path):

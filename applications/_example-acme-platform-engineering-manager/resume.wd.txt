@@ -34,17 +34,21 @@ Buffalo, NY
 SUMMARY
 Engineering manager with 15 years in backend and platform engineering. Leads the team that runs the shared Kubernetes, CI/CD and observability platform for 40 product teams at Example Health, and made on-call boring along the way.
 
-CORE COMPETENCIES
-Kubernetes platform operations on AWS
-Infrastructure as Code and CI/CD: Terraform, GitHub Actions
-Incident management and on-call leadership: PagerDuty, blameless postmortems
-Observability: Datadog, Grafana
-Leading engineers and team leads
-
 EDUCATION
-BS, Computer Science, Example State University, 2011
+Bachelor's
+Computer Science
+Example State University
+2011
 
 SKILLS
-Cloud and infrastructure: AWS · Kubernetes · Terraform · Docker
-Observability and incident management: Datadog · Grafana · PagerDuty
-Languages: Go · Python · Java · Bash
+AWS
+Kubernetes
+Terraform
+Docker
+Datadog
+Grafana
+PagerDuty
+Go
+Python
+Java
+Bash
