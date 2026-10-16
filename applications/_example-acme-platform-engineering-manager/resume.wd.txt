@@ -13,6 +13,7 @@ Location: Rochester, NY
 From: 03/2020
 To: Present
 Role Description:
+Engineering Manager / Platform
 - Lead a platform team of 8 engineers and 2 team leads supporting 40 product teams.
 - Moved all services from hand-built VMs to Kubernetes on AWS over 18 months, with no customer-facing outages during migration.
 - Cut pages per on-call week from about 30 to about 8 by fixing the noisiest alerts first.
@@ -24,6 +25,7 @@ Location: Rochester, NY
 From: 06/2016
 To: 03/2020
 Role Description:
+Senior Software Engineer
 - Built the deployment pipeline (GitHub Actions, Terraform) that became the company standard.
 
 Job Title: Software Engineer
@@ -32,6 +34,7 @@ Location: Buffalo, NY
 From: 07/2011
 To: 06/2016
 Role Description:
+Software Engineer
 - Wrote card-authorization services in Java handling about 2M transactions a day.
 
 SUMMARY
