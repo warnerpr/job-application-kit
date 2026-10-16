@@ -22,20 +22,20 @@ From real uploads of a plain-text resume to a Workday application:
    ```
    It shows up only in the `.txt` and `.wd.txt` files, never in the PDF, Word file or website.
 2. **It rejects the country code on phone numbers.** The text files drop `+1`.
-3. **Commas in job titles get read as delimiters**, even on a labelled "Job Title:" line. "Director, IT Cloud Services" was split in two. Slashes ("DevOps Manager / Engineer") were fine, so the `.wd.txt` turns commas in titles into slashes.
+3. **Commas in job titles get read as delimiters**, even on a labelled "Job Title:" line: "Director, IT Cloud Services" was split in two. Replacing the comma with a slash fixed that, but then Workday seemed to take "IT Cloud Services" for a company name. The `.wd.txt` uses "of" instead: "Director of IT Cloud Services". Titles that already had a slash and no comma ("DevOps Manager / Engineer") are left alone.
 4. **It drops the first "-" in each role description.** The `.wd.txt` repeats the job title as the first line of the description, so the bullets survive.
-5. **It can't untangle a combined company, location and date line**, especially with commas or parentheses in the company name ("Cyan, Inc. (acquired by Ciena, 2015)").
+5. **It can't untangle a combined company, location and date line**, especially with commas or parentheses in the company name ("Cyan, Inc. (acquired by Ciena, 2015)"). Even on its own labelled line, the comma in "Cyan, Inc." seemed to break company, location and dates, so the `.wd.txt` drops commas from company names ("Cyan Inc.").
 
-`scripts/wd_txt.py` builds `<resume>.wd.txt` to work around all of these. It puts every field on its own labelled line, turns commas in job titles into slashes, splits company, location and dates apart, drops parenthetical notes from company names, and writes dates as MM/YYYY:
+`scripts/wd_txt.py` builds `<resume>.wd.txt` to work around all of these. It puts every field on its own labelled line, turns commas in job titles into "of", drops commas from company names, splits company, location and dates apart, drops parenthetical notes from company names, and writes dates as MM/YYYY:
 
 ```
-Job Title: Director / IT Cloud Services
+Job Title: Director of IT Cloud Services
 Company: Ciena Corporation
 Location: Petaluma, CA and remote
 From: 09/2020
 To: 05/2022
 Role Description:
-Director / IT Cloud Services
+Director of IT Cloud Services
 - Led a team of 12 …
 ```
 

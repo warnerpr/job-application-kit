@@ -7,13 +7,13 @@ LinkedIn: https://linkedin.com/in/jordanlee-example
 
 WORK EXPERIENCE
 
-Job Title: Engineering Manager / Platform
+Job Title: Engineering Manager of Platform
 Company: Example Health
 Location: Rochester, NY
 From: 03/2020
 To: Present
 Role Description:
-Engineering Manager / Platform
+Engineering Manager of Platform
 - Lead a platform team of 8 engineers and 2 team leads supporting 40 product teams.
 - Moved all services from hand-built VMs to Kubernetes on AWS over 18 months, with no customer-facing outages during migration.
 - Cut pages per on-call week from about 30 to about 8 by fixing the noisiest alerts first.

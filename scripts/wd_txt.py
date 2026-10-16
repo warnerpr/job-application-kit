@@ -15,9 +15,12 @@ it is safe to run on cover letters.
 
 What it does differently from the plain .txt, based on real Workday uploads:
 - Every field is on its own "Label: Value" line.
-- Commas in job titles become slashes ("Director, IT Cloud Services" becomes
-  "Director / IT Cloud Services"). Workday splits titles on commas, even on
-  a labelled line, but handles slashes.
+- Commas in job titles become "of" ("Director, IT Cloud Services" becomes
+  "Director of IT Cloud Services"). Workday splits titles on commas, even on a
+  labelled line. Slashes fixed that but then it mistook the department after
+  the slash for a company.
+- Commas are dropped from company names ("Cyan, Inc." becomes "Cyan Inc."),
+  which otherwise broke company, location and dates.
 - Company, location and dates are split apart. Parenthetical notes in the
   company name ("(acquired by Ciena, 2015)") are dropped.
 - Dates become MM/YYYY.
@@ -100,9 +103,10 @@ def parse(md):
             dates = DATE_RANGE.match(parts[-1]) if len(parts) >= 2 else None
             if dates:
                 company = re.sub(r"\s*\([^)]*\)", "", parts[0]).strip()
+                company = company.replace(",", "")  # "Cyan, Inc." -> "Cyan Inc."
                 job = {
-                    # Workday splits titles on commas; slashes are fine
-                    "Job Title": re.sub(r"\s*,\s*", " / ", clean(l[4:])),
+                    # "Director, IT Cloud Services" -> "Director of IT Cloud Services"
+                    "Job Title": re.sub(r"\s*,\s*", " of ", clean(l[4:])),
                     "Company": company,
                     "Location": ", ".join(parts[1:-1]),
                     "From": fmt_date(dates.group("from")),
