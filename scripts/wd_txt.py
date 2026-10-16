@@ -14,8 +14,10 @@ Does nothing (and writes nothing) if the file has no jobs in that layout, so
 it is safe to run on cover letters.
 
 What it does differently from the plain .txt, based on real Workday uploads:
-- Every field is on its own "Label: Value" line, so commas in job titles
-  ("Director, IT Cloud Services") aren't read as delimiters.
+- Every field is on its own "Label: Value" line.
+- Commas in job titles become slashes ("Director, IT Cloud Services" becomes
+  "Director / IT Cloud Services"). Workday splits titles on commas, even on
+  a labelled line, but handles slashes.
 - Company, location and dates are split apart. Parenthetical notes in the
   company name ("(acquired by Ciena, 2015)") are dropped.
 - Dates become MM/YYYY.
@@ -97,7 +99,8 @@ def parse(md):
             if dates:
                 company = re.sub(r"\s*\([^)]*\)", "", parts[0]).strip()
                 job = {
-                    "Job Title": clean(l[4:]),
+                    # Workday splits titles on commas; slashes are fine
+                    "Job Title": re.sub(r"\s*,\s*", " / ", clean(l[4:])),
                     "Company": company,
                     "Location": ", ".join(parts[1:-1]),
                     "From": fmt_date(dates.group("from")),
