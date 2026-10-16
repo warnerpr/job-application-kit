@@ -1,3 +1,4 @@
+| `footer.md.example` | Optional "built with" footer. Copy to `footer.md` to turn it on. |
 # Job Application Kit
 
 Keep your resume as plain Markdown in a private GitHub repository, tailor it for each job, and let GitHub build the Word, PDF and text versions for you. Two [Claude Code](https://claude.com/claude-code) skills coach you through writing it in your own voice.
@@ -105,6 +106,7 @@ Everything except the coaching works on its own: edit the Markdown, run `scripts
 - **Look of the PDFs:** `scripts/pdf.css`.
 - **Look of the website:** `site/style.css`.
 - **Writing rules** (em dashes, banned words, tone): `docs/writing-guide.md`. The skills follow whatever it says.
+- **"Built with" footer:** copy `footer.md.example` to `footer.md` and edit it. Its text is added, small, to the end of every built resume, cover letter and website page. Use it if you want readers to know how your documents are made; leave it out if not. It's one short line, so it won't confuse applicant tracking systems.
 
 ## Privacy
 

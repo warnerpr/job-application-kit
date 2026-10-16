@@ -3,3 +3,5 @@ h1{margin-bottom:.2rem}h2{border-bottom:1px solid #ddd;padding-bottom:.2rem;marg
 a{color:#0b5cad}hr{border:0;border-top:1px solid #ddd}
 @media print{body{margin:0;max-width:none}}
 @media(prefers-color-scheme:dark){body{background:#121212;color:#e6e6e6}a{color:#6cb2ff}h2,hr{border-color:#333}}
+/* footer.md: the paragraph after the last horizontal rule */
+hr:last-of-type ~ p{font-size:.85em;color:#777}

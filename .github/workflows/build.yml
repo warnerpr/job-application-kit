@@ -9,6 +9,7 @@ on:
       - 'master_resume.md'
       - 'public_resume.md'
       - 'applications/**/*.md'
+      - 'footer.md'
       - 'scripts/build.sh'
       - 'scripts/pdf.css'
       - '.github/workflows/build.yml'

@@ -7,3 +7,5 @@ p, ul { margin: 4pt 0; }
 li { margin: 1.5pt 0; }
 a { color: #0b5cad; text-decoration: none; }
 h2, h3 { break-after: avoid; }
+/* footer.md: the paragraph after the last horizontal rule */
+hr:last-of-type ~ p { font-size: 8.5pt; color: #666; }

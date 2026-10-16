@@ -6,7 +6,7 @@ name: Publish public resume
 on:
   push:
     branches: [main]
-    paths: ['public_resume.md', 'site/**', '.github/workflows/publish.yml']
+    paths: ['public_resume.md', 'footer.md', 'site/**', '.github/workflows/publish.yml']
   workflow_dispatch:
 
 jobs:
@@ -21,7 +21,9 @@ jobs:
           sudo apt-get update -qq && sudo apt-get install -y -qq pandoc
           name="$(head -1 public_resume.md | sed 's/^# *//')"
           mkdir out
-          pandoc public_resume.md -f gfm -s \
+          inputs=(public_resume.md)
+          [ -f footer.md ] && inputs+=(footer.md)
+          pandoc "${inputs[@]}" -f gfm -s \
             --metadata pagetitle="$name - Resume" \
             -c style.css -o out/index.html
           cp site/style.css out/

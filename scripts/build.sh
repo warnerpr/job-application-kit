@@ -5,9 +5,13 @@
 #   applications/<folder>/*.md          -> next to each file
 #
 # README.md and job_description.md files are skipped.
+# If footer.md exists, it is appended to every document (and the website).
 # Needs pandoc. PDF also needs weasyprint; without it, PDFs are skipped.
 set -euo pipefail
 cd "$(dirname "$0")/.."
+
+# Top-level documents to build into build/.
+root_docs="master_resume.md public_resume.md"
 
 css="scripts/pdf.css"
 have_pdf=1
@@ -19,17 +23,19 @@ from="gfm+hard_line_breaks"
 
 build() {  # build <source.md> <output path without extension>
   local md="$1" out="$2"
+  local inputs=("$md")
+  [ -f footer.md ] && inputs+=(footer.md)
   echo "Building $out"
-  pandoc "$md" -f "$from" -t plain --wrap=none -o "$out.txt"
-  pandoc "$md" -f "$from" -o "$out.docx"
+  pandoc "${inputs[@]}" -f "$from" -t plain --wrap=none -o "$out.txt"
+  pandoc "${inputs[@]}" -f "$from" -o "$out.docx"
   if [ "$have_pdf" = 1 ]; then
-    pandoc "$md" -f "$from" -s --metadata pagetitle="$(basename "$out")" \
+    pandoc "${inputs[@]}" -f "$from" -s --metadata pagetitle="$(basename "$out")" \
       -c "$css" --pdf-engine=weasyprint -o "$out.pdf"
   fi
 }
 
 mkdir -p build
-for md in master_resume.md public_resume.md; do
+for md in $root_docs; do
   [ -f "$md" ] && build "$md" "build/${md%.md}"
 done
 
