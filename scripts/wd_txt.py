@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Write a Workday-friendly "Label: Value" text version of a tailored resume.
+"""Write a Workday-friendly plain text version of a tailored resume.
 
     python3 scripts/wd_txt.py applications/<folder>/resume.md
 
@@ -14,13 +14,14 @@ Does nothing (and writes nothing) if the file has no jobs in that layout, so
 it is safe to run on cover letters.
 
 What it does differently from the plain .txt, based on real Workday uploads:
-- Every field is on its own "Label: Value" line.
+- Every field is on its own line, values only, in a fixed order: title,
+  company, location, from, to, then the description. (An earlier
+  "Label: Value" version seemed to confuse Workday more than it helped.)
 - Commas in job titles become "of" ("Director, IT Cloud Services" becomes
-  "Director of IT Cloud Services"). Workday splits titles on commas, even on a
-  labelled line. Slashes fixed that but then it mistook the department after
-  the slash for a company.
-- Commas are dropped from company names ("Cyan, Inc." becomes "Cyan Inc."),
-  which otherwise broke company, location and dates.
+  "Director of IT Cloud Services"). Workday split titles on commas. Slashes
+  fixed that, but then it seemed to mistake the department after the slash
+  for a company.
+- Commas are dropped from company names ("Cyan, Inc." becomes "Cyan Inc.").
 - Company, location and dates are split apart. Parenthetical notes in the
   company name ("(acquired by Ciena, 2015)") are dropped.
 - Dates become MM/YYYY.
@@ -129,17 +130,18 @@ def parse(md):
 
 
 def render(name, address, contact, jobs, sections):
-    out = ["PERSONAL INFORMATION", f"Name: {name}"]
+    # Values only, one per line. "Label: Value" lines seemed to confuse
+    # Workday's parser more than they helped.
+    out = ["PERSONAL INFORMATION", name]
     if address:
-        out.append(f"Address: {address}")
+        out.append(address)
     for key in ("Email", "Phone", "LinkedIn"):
         if key in contact:
-            out.append(f"{key}: {contact[key]}")
+            out.append(contact[key])
     out += ["", "WORK EXPERIENCE", ""]
     for job in jobs:
         for key in ("Job Title", "Company", "Location", "From", "To"):
-            out.append(f"{key}: {job[key]}")
-        out.append("Role Description:")
+            out.append(job[key])
         # Workday strips the first "-" in the description, so lead with the title
         out.append(job["Job Title"])
         out += [f"- {d}" for d in job["description"]]

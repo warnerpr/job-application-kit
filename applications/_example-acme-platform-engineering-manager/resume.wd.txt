@@ -1,39 +1,36 @@
 PERSONAL INFORMATION
-Name: Jordan Lee
-Address: 100 Example St, Rochester, NY 14600
-Email: jordan.lee@example.com
-Phone: 555-555-0100
-LinkedIn: https://linkedin.com/in/jordanlee-example
+Jordan Lee
+100 Example St, Rochester, NY 14600
+jordan.lee@example.com
+555-555-0100
+https://linkedin.com/in/jordanlee-example
 
 WORK EXPERIENCE
 
-Job Title: Engineering Manager of Platform
-Company: Example Health
-Location: Rochester, NY
-From: 03/2020
-To: Present
-Role Description:
+Engineering Manager of Platform
+Example Health
+Rochester, NY
+03/2020
+Present
 Engineering Manager of Platform
 - Lead a platform team of 8 engineers and 2 team leads supporting 40 product teams.
 - Moved all services from hand-built VMs to Kubernetes on AWS over 18 months, with no customer-facing outages during migration.
 - Cut pages per on-call week from about 30 to about 8 by fixing the noisiest alerts first.
 - Introduced blameless postmortems and tracked every action item to completion.
 
-Job Title: Senior Software Engineer
-Company: Example Health
-Location: Rochester, NY
-From: 06/2016
-To: 03/2020
-Role Description:
+Senior Software Engineer
+Example Health
+Rochester, NY
+06/2016
+03/2020
 Senior Software Engineer
 - Built the deployment pipeline (GitHub Actions, Terraform) that became the company standard.
 
-Job Title: Software Engineer
-Company: Sample Payments Co.
-Location: Buffalo, NY
-From: 07/2011
-To: 06/2016
-Role Description:
+Software Engineer
+Sample Payments Co.
+Buffalo, NY
+07/2011
+06/2016
 Software Engineer
 - Wrote card-authorization services in Java handling about 2M transactions a day.
 

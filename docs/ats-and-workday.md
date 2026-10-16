@@ -9,7 +9,7 @@ Most large employers take applications through an applicant tracking system (ATS
   - **`.docx`**: the safest choice for parsing.
   - **`.pdf`**: the nicest for a human to read. Text-based PDFs (like the ones built here) parse fine; scanned or image PDFs don't.
   - **`.txt`**: plain text with the Markdown symbols removed, for "paste your resume" boxes. It includes your mailing address and drops the `+1` from your phone number.
-  - **`.wd.txt`** (tailored resumes only): a "Label: Value" version made for Workday's autofill. See below.
+  - **`.wd.txt`** (tailored resumes only): a stripped-down version made for Workday's autofill. See below.
 - A good routine: use the `.wd.txt` or `.docx` for autofill, check every field, then attach the `.pdf` (or `.docx`) as the document the recruiter will see. Some systems keep the first file you uploaded, so check before you submit.
 
 ## What we learned uploading to Workday
@@ -24,20 +24,22 @@ From real uploads of a plain-text resume to a Workday application:
 2. **It rejects the country code on phone numbers.** The text files drop `+1`.
 3. **Commas in job titles get read as delimiters**, even on a labelled "Job Title:" line: "Director, IT Cloud Services" was split in two. Replacing the comma with a slash fixed that, but then Workday seemed to take "IT Cloud Services" for a company name. The `.wd.txt` uses "of" instead: "Director of IT Cloud Services". Titles that already had a slash and no comma ("DevOps Manager / Engineer") are left alone.
 4. **It drops the first "-" in each role description.** The `.wd.txt` repeats the job title as the first line of the description, so the bullets survive.
-5. **It can't untangle a combined company, location and date line**, especially with commas or parentheses in the company name ("Cyan, Inc. (acquired by Ciena, 2015)"). Even on its own labelled line, the comma in "Cyan, Inc." seemed to break company, location and dates, so the `.wd.txt` drops commas from company names ("Cyan Inc.").
+5. **It can't untangle a combined company, location and date line**, especially with commas or parentheses in the company name ("Cyan, Inc. (acquired by Ciena, 2015)"). Even on its own line, the comma in "Cyan, Inc." seemed to break company, location and dates, so the `.wd.txt` drops commas from company names ("Cyan Inc.").
+6. **Labels didn't help.** A version with "Job Title:", "Company:" and similar labels on every line still got companies wrong, apparently at random. Our working theory is that Workday uses some kind of AI to find the fields, and unusual titles or internal names confuse it more than layout does. So the `.wd.txt` is values only, and plain, conventional job titles in your resume help more than formatting tricks.
 
-`scripts/wd_txt.py` builds `<resume>.wd.txt` to work around all of these. It puts every field on its own labelled line, turns commas in job titles into "of", drops commas from company names, splits company, location and dates apart, drops parenthetical notes from company names, and writes dates as MM/YYYY:
+`scripts/wd_txt.py` builds `<resume>.wd.txt` to work around all of these. It puts every value on its own line in a fixed order (title, company, location, from, to, description), turns commas in job titles into "of", drops commas and parenthetical notes from company names, and writes dates as MM/YYYY:
 
 ```
-Job Title: Director of IT Cloud Services
-Company: Ciena Corporation
-Location: Petaluma, CA and remote
-From: 09/2020
-To: 05/2022
-Role Description:
+Director of IT Cloud Services
+Ciena Corporation
+Petaluma, CA and remote
+09/2020
+05/2022
 Director of IT Cloud Services
 - Led a team of 12 …
 ```
+
+Whatever you upload, check every autofilled field before you submit. No format we've tried parses perfectly.
 
 It only understands the tailored layout below, so it skips the master resume and cover letters. It needs Python 3, which GitHub's build runner has.
 
