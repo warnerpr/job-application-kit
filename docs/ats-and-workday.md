@@ -23,7 +23,7 @@ From real uploads of a plain-text resume to a Workday application:
    It shows up only in the `.txt` and `.wd.txt` files, never in the PDF, Word file or website.
 2. **It rejects the country code on phone numbers.** The text files drop `+1`.
 3. **Commas in job titles get read as delimiters**, even on a labelled "Job Title:" line: "Director, IT Cloud Services" was split in two. Replacing the comma with a slash fixed that, but then Workday seemed to take "IT Cloud Services" for a company name. The `.wd.txt` uses "of" instead: "Director of IT Cloud Services". Titles that already had a slash and no comma ("DevOps Manager / Engineer") are left alone.
-4. **It drops the first "-" in each role description.** The `.wd.txt` repeats the job title as the first line of the description, so the bullets survive.
+4. **It drops the first "-" in each role description.** We tried repeating the job title as the first line of the description to absorb it, but dropped that; losing one dash is harmless.
 5. **It can't untangle a combined company, location and date line**, especially with commas or parentheses in the company name ("Cyan, Inc. (acquired by Ciena, 2015)"). Even on its own line, the comma in "Cyan, Inc." seemed to break company, location and dates, so the `.wd.txt` drops commas from company names ("Cyan Inc.").
 6. **Labels didn't help.** A version with "Job Title:", "Company:" and similar labels on every line still got companies wrong, apparently at random. Our working theory is that Workday uses some kind of AI to find the fields, and unusual titles or internal names confuse it more than layout does. So the `.wd.txt` is values only, and plain, conventional job titles in your resume help more than formatting tricks.
 
@@ -35,7 +35,6 @@ Ciena Corporation
 Petaluma, CA and remote
 09/2020
 05/2022
-Director of IT Cloud Services
 - Led a team of 12 …
 ```
 

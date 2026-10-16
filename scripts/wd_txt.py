@@ -25,8 +25,6 @@ What it does differently from the plain .txt, based on real Workday uploads:
 - Company, location and dates are split apart. Parenthetical notes in the
   company name ("(acquired by Ciena, 2015)") are dropped.
 - Dates become MM/YYYY.
-- Each role description starts with the job title, because Workday drops the
-  first "-" bullet marker in the description.
 - The phone number loses its +1 country code.
 - The mailing address comes from a hidden comment in the resume,
   <!-- address: 123 Main St, Town, ST 12345 -->, which no other format shows.
@@ -142,8 +140,6 @@ def render(name, address, contact, jobs, sections):
     for job in jobs:
         for key in ("Job Title", "Company", "Location", "From", "To"):
             out.append(job[key])
-        # Workday strips the first "-" in the description, so lead with the title
-        out.append(job["Job Title"])
         out += [f"- {d}" for d in job["description"]]
         out.append("")
     for s in sections:
