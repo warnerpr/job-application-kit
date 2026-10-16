@@ -18,6 +18,11 @@ on:
 permissions:
   contents: write
 
+# Queue runs instead of overlapping, so two quick pushes don't collide.
+concurrency:
+  group: build-documents
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -37,4 +42,5 @@ jobs:
           git add build applications
           git diff --cached --quiet && { echo "No changes"; exit 0; }
           git commit -m "Build documents from ${GITHUB_SHA::7}"
+          git pull --rebase
           git push
