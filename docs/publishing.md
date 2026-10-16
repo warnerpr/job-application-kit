@@ -1,6 +1,6 @@
 # Publishing a resume website (optional)
 
-You can publish `public_resume.md` as a web page at `https://<your-username>.github.io`, rebuilt every time you push a change to it.
+You can publish `public_resume.md` as a web page at `https://<your-username>.github.io`, rebuilt every time you push a change to it. The page has a "Download PDF" link to a PDF of the same resume.
 
 ## Why a separate public file
 
@@ -43,5 +43,5 @@ If `PAGES_REPO` isn't set, the publish workflow does nothing, so the kit works f
 
 ## Notes
 
-- The workflow overwrites `index.html`, `style.css` and `resume.md` in the public repository. Anything else there is left alone. If you already have an `index.html` you care about, move it first.
+- The workflow overwrites `index.html`, `style.css`, `resume.md` and `<Your_Name>_Resume.pdf` in the public repository. Anything else there is left alone. If you already have an `index.html` you care about, move it first.
 - To stop publishing, delete the `PAGES_REPO` variable.

@@ -6,7 +6,7 @@ name: Publish public resume
 on:
   push:
     branches: [main]
-    paths: ['public_resume.md', 'footer.md', 'site/**', '.github/workflows/publish.yml']
+    paths: ['public_resume.md', 'footer.md', 'site/**', 'scripts/pdf.css', '.github/workflows/publish.yml']
   workflow_dispatch:
 
 jobs:
@@ -16,16 +16,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build HTML
+      - name: Build HTML and PDF
         run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq pandoc
-          name="$(head -1 public_resume.md | sed 's/^# *//')"
+          sudo apt-get update -qq && sudo apt-get install -y -qq pandoc weasyprint fonts-dejavu
           mkdir out
           inputs=(public_resume.md)
           [ -f footer.md ] && inputs+=(footer.md)
-          pandoc "${inputs[@]}" -f gfm -s \
-            --metadata pagetitle="$name - Resume" \
-            -c style.css -o out/index.html
+          name="$(head -1 public_resume.md | sed 's/^# *//')"
+          pdf="${name// /_}_Resume.pdf"
+          pandoc "${inputs[@]}" -f gfm+hard_line_breaks -s             --metadata pagetitle="$name - Resume"             -c scripts/pdf.css --pdf-engine=weasyprint -o "out/$pdf"
+          echo "<p class=\"download\"><a href=\"$pdf\">Download PDF</a></p>" > download.html
+          pandoc "${inputs[@]}" -f gfm -s             --metadata pagetitle="$name - Resume"             --include-before-body download.html             -c style.css -o out/index.html
           cp site/style.css out/
           cp public_resume.md out/resume.md
 
