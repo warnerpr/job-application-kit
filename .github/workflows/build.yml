@@ -1,7 +1,9 @@
 name: Build documents
 
-# Turns every resume and cover letter into .txt, .docx and .pdf, then commits
-# the results back to the repository. Run `git pull` afterwards to get them.
+# Turns resumes and cover letters into .txt, .docx and .pdf, then commits the
+# results back to the repository. Run `git pull` afterwards to get them.
+# A push rebuilds only the Markdown files it changed; a change to the footer,
+# the build scripts or this workflow (or a manual run) rebuilds everything.
 on:
   push:
     branches: [main]
@@ -29,12 +31,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history: the build stamps each document with its source's
+          # last commit time, and the diff below needs the previous commit.
+          fetch-depth: 0
 
       - name: Install pandoc and weasyprint
         run: sudo apt-get update -qq && sudo apt-get install -y -qq pandoc weasyprint fonts-dejavu
 
       - name: Build
-        run: bash scripts/build.sh
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          everything() { echo "Rebuilding everything: $1"; bash scripts/build.sh; exit 0; }
+          [ "$GITHUB_EVENT_NAME" = push ] || everything "manual run"
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || everything "no previous commit"
+          changed="$(git diff --name-only --diff-filter=d "$BEFORE" HEAD)"
+          grep -qxE 'footer\.md|scripts/(build\.sh|wd_txt\.py|pdf\.css)|\.github/workflows/build\.yml' <<<"$changed" &&
+            everything "shared build input changed"
+          mapfile -t docs < <(grep -E '\.md$' <<<"$changed" || true)
+          [ ${#docs[@]} -gt 0 ] || { echo "No documents changed"; exit 0; }
+          bash scripts/build.sh "${docs[@]}"
 
       - name: Commit generated files
         run: |
