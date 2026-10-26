@@ -13,10 +13,10 @@ Engineering leader with 15 years across backend development, platform engineerin
 
 Core Competencies
 
--   Platform engineering and internal developer platforms
--   Cloud operations on AWS: cost, security and reliability
--   Incident response and on-call: PagerDuty, blameless postmortems
--   Building and leading teams of engineers and team leads
+- Platform engineering and internal developer platforms
+- Cloud operations on AWS: cost, security and reliability
+- Incident response and on-call: PagerDuty, blameless postmortems
+- Building and leading teams of engineers and team leads
 
 ------------------------------------------------------------------------
 
@@ -28,35 +28,35 @@ Rochester, NY (hybrid) · Mar 2020 – Present
 
 Led the platform team (8 engineers, 2 team leads) that runs the shared Kubernetes, CI/CD and observability stack for 40 product teams.
 
--   Moved all services from hand-built VMs to Kubernetes on AWS over 18 months, with no customer-facing outages during migration.
--   Cut pages per on-call week from about 30 to about 8 by fixing the noisiest alerts first and deleting alerts nobody acted on.
--   Introduced blameless postmortems and tracked every action item to completion.
+- Moved all services from hand-built VMs to Kubernetes on AWS over 18 months, with no customer-facing outages during migration.
+- Cut pages per on-call week from about 30 to about 8 by fixing the noisiest alerts first and deleting alerts nobody acted on.
+- Introduced blameless postmortems and tracked every action item to completion.
 
 Example Health: Senior Software Engineer
 
 Rochester, NY · Jun 2016 – Mar 2020
 
--   Built the deployment pipeline (GitHub Actions, Terraform) that became the company standard.
--   Go-to person for production debugging on the claims-processing services.
+- Built the deployment pipeline (GitHub Actions, Terraform) that became the company standard.
+- Go-to person for production debugging on the claims-processing services.
 
 Sample Payments Co.: Software Engineer
 
 Buffalo, NY · Jul 2011 – Jun 2016
 
--   Wrote and maintained card-authorization services in Java handling about 2M transactions a day.
+- Wrote and maintained card-authorization services in Java handling about 2M transactions a day.
 
 ------------------------------------------------------------------------
 
 Education
 
--   Example State University: BS, Computer Science, 2011
+- Example State University: BS, Computer Science, 2011
 
 Certifications
 
--   AWS Certified Solutions Architect, Associate, 2021
+- AWS Certified Solutions Architect, Associate, 2021
 
 Skills
 
--   Cloud and infrastructure: AWS · Kubernetes · Terraform · Docker
--   Observability and incident management: Datadog · Grafana · PagerDuty
--   Languages: Go · Python · Java · Bash
+- Cloud and infrastructure: AWS · Kubernetes · Terraform · Docker
+- Observability and incident management: Datadog · Grafana · PagerDuty
+- Languages: Go · Python · Java · Bash

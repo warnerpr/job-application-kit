@@ -12,7 +12,7 @@ Engineering Manager, Platform
 
 Example Health · Rochester, NY · Mar 2020 – Present
 
--   Led the platform team that runs the shared Kubernetes, CI/CD and observability stack for 40 product teams.
+- Led the platform team that runs the shared Kubernetes, CI/CD and observability stack for 40 product teams.
 
 Senior Software Engineer
 
