@@ -121,9 +121,34 @@ You don't need to install anything; GitHub builds for you. If you want to build 
 - For PDFs, also install [WeasyPrint](https://doc.courtbouillon.org/weasyprint/stable/first_steps.html). This is easy on Mac and Linux and fiddly on Windows; the script skips PDFs if it isn't installed.
 - Run `scripts/build.sh` from Git Bash (installed with [Git for Windows](https://git-scm.com/download/win)) or a terminal.
 
+## Using it with Codex or ChatGPT
+
+The two skills are plain instructions in the open [Agent Skills](https://agentskills.io) format (a folder with a `SKILL.md`), and nothing in them is specific to Claude. Other assistants can follow them, with some setup.
+
+### Codex
+
+[Codex](https://developers.openai.com/codex/skills) reads skills from `.agents/skills/` in a repository, not `.claude/skills/`. Copy them across once in your own repository:
+
+```bash
+mkdir -p .agents
+cp -r .claude/skills .agents/skills
+```
+
+Commit the copy, then use the skills the same way: ask Codex to build your master resume or tailor an application, or name a skill directly with `$resume-coach` or `$tailor-application`. Codex can edit, commit and push like Claude Code, so the rest of this README applies unchanged. If you later edit a skill, edit both copies (or delete the one you don't use).
+
+### ChatGPT
+
+ChatGPT [supports skills](https://help.openai.com/en/articles/20001066) on some plans (Business, Enterprise, Edu and similar at the time of writing; check the article for yours). Upload each skill folder under **Skills → New skill**. ChatGPT can't commit to your repository, so the workflow is more manual:
+
+1. Give it your files: upload `master_resume.md`, `docs/writing-guide.md` and `docs/ats-and-workday.md` to the chat (or a ChatGPT Project so they stay put).
+2. Ask it to build your resume or tailor an application, as above.
+3. Copy what it writes back into the matching file on github.com (pencil icon → paste → **Commit changes**). The build then makes your Word, PDF and text files as usual.
+
+On a plan without skills, make a ChatGPT Project, paste the contents of the `SKILL.md` you want into the Project's instructions, and upload the same files. It works the same way, just without automatic skill selection.
+
 ## Using it without Claude
 
-Everything except the coaching works on its own: edit the Markdown (you can even do this on github.com, using the pencil icon on any file), run `scripts/new-application.sh "Company" "Role"`, push, pull your files. The two `SKILL.md` files also work as plain checklists for doing it by hand or with another AI assistant.
+Everything except the coaching works on its own: edit the Markdown (you can even do this on github.com, using the pencil icon on any file), run `scripts/new-application.sh "Company" "Role"`, push, pull your files. The two `SKILL.md` files also work as plain checklists for doing it by hand.
 
 ## Customizing
 
