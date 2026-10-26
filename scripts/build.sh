@@ -8,6 +8,12 @@
 # a Workday-style <name>.wd.txt (scripts/wd_txt.py, needs python3).
 # If footer.md exists, it is appended to every document (and the website).
 # Needs pandoc. PDF also needs weasyprint; without it, PDFs are skipped.
+#
+#   scripts/build.sh               build everything
+#   scripts/build.sh a.md b.md     build only these sources
+#
+# Each document's embedded timestamps are set to its source's last commit time
+# (SOURCE_DATE_EPOCH), so rebuilding an unchanged source gives identical files.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -42,6 +48,9 @@ build() {  # build <source.md> <output path without extension>
   local inputs=("$md")
   [ -f footer.md ] && inputs+=(footer.md)
   echo "Building $out"
+  local epoch
+  epoch="$(git log -1 --format=%ct -- "$md" 2>/dev/null || true)"
+  export SOURCE_DATE_EPOCH="${epoch:-$(date +%s)}"
   pandoc "${inputs[@]}" -f "$from" -t plain --wrap=none -o "$out.txt"
   fix_txt "$md" "$out.txt"
   pandoc "${inputs[@]}" -f "$from" -o "$out.docx"
@@ -53,10 +62,24 @@ build() {  # build <source.md> <output path without extension>
   fi
 }
 
-mkdir -p build
-for md in $root_docs; do
-  [ -f "$md" ] && build "$md" "build/${md%.md}"
-done
+build_one() {  # build_one <source.md>; ignores files that aren't documents
+  local md="$1"
+  [ -f "$md" ] || return 0
+  case "$md" in
+    README.md|*/README.md|*/job_description.md) return 0 ;;
+    applications/*.md) build "$md" "${md%.md}" ;;
+    *) for root in $root_docs; do
+         [ "$md" = "$root" ] && { mkdir -p build; build "$md" "build/${md%.md}"; }
+       done ;;
+  esac
+  return 0
+}
 
-find applications -name '*.md' ! -name README.md ! -name job_description.md -print0 |
-  while IFS= read -r -d '' md; do build "$md" "${md%.md}"; done
+if [ $# -gt 0 ]; then
+  for md in "$@"; do build_one "$md"; done
+  exit 0
+fi
+
+for md in $root_docs; do build_one "$md"; done
+find applications -name '*.md' -print0 |
+  while IFS= read -r -d '' md; do build_one "$md"; done

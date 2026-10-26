@@ -31,9 +31,9 @@ master_resume.md ──(tailor-application skill)──▶ applications/<job>/re
 | `docs/writing-guide.md` | Voice, style and honesty rules the skills follow. Edit to taste. |
 | `docs/ats-and-workday.md` | How applicant tracking systems read your resume, and upload tips. |
 | `docs/publishing.md` | Setting up the optional website. |
-| `scripts/build.sh` | Builds `.txt`, `.docx`, `.pdf`. Runs in GitHub Actions; can run locally. |
+| `scripts/build.sh` | Builds `.txt`, `.docx`, `.pdf`. Runs in GitHub Actions (only for the files a push changed); can run locally, for everything or for the files you name. |
 | `scripts/new-application.sh` | Creates a new application folder. |
-| `.github/workflows/build.yml` | Builds documents on every push and commits them back. |
+| `.github/workflows/build.yml` | Builds the documents each push changed and commits them back. |
 | `.github/workflows/publish.yml` | Publishes the website. Off until you set it up. |
 
 ## New to GitHub?
