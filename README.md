@@ -36,26 +36,48 @@ master_resume.md ──(tailor-application skill)──▶ applications/<job>/re
 | `.github/workflows/build.yml` | Builds documents on every push and commits them back. |
 | `.github/workflows/publish.yml` | Publishes the website. Off until you set it up. |
 
+## New to GitHub?
+
+You don't need to know git to use this kit. A few words you'll see:
+
+- **Repository** (or "repo"): a project folder stored on GitHub. Yours will hold your resume.
+- **Commit**: a saved snapshot of your changes, with a short note.
+- **Push**: send your commits up to GitHub. **Pull**: bring GitHub's latest changes down to your computer.
+- **Action**: a small job GitHub runs for you. Here, it turns your Markdown into Word, PDF and text.
+
+**Create a free account** at [github.com/signup](https://github.com/signup). The free plan is all you need, and it includes private repositories. Pick a username you'd be happy to show an employer, since it appears in your website address if you publish one.
+
 ## Getting started
 
 ### 1. Make your own private copy
 
-On GitHub, click **Use this template → Create a new repository**, and choose **Private**. Your resume will hold your contact details and work history, so keep the repository private.
-
-Then clone it:
-
-```bash
-git clone git@github.com:<you>/<your-repo>.git
-cd <your-repo>
-```
+Signed in to GitHub, open this kit's page and click **Use this template → Create a new repository**. Give it a name like `resume`, choose **Private**, and click **Create repository**. Your resume will hold your contact details and work history, so keep the repository private.
 
 ### 2. Let the build commit back
 
-The build workflow commits generated files to your repository. In your new repository go to **Settings → Actions → General → Workflow permissions** and choose **Read and write permissions**. (Some accounts have this on already.)
+The build workflow commits generated files to your repository. In your new repository go to **Settings → Actions → General → Workflow permissions** and choose **Read and write permissions**, then **Save**. (Some accounts have this on already.)
 
-### 3. Write your master resume with Claude
+### 3. Choose how you'll work with Claude
 
-Open Claude Code in the repository folder. The skills in `.claude/skills/` load automatically. Then say something like:
+Pick whichever suits you. Both use the same skills.
+
+**Option A: in your browser, nothing to install.** Go to [claude.ai/code](https://claude.ai/code), connect your GitHub account when asked, and let Claude access your new repository. Start a session on that repository. Claude makes its changes on a separate branch; when you're happy with them, ask Claude to open a pull request and merge it (or click **Merge pull request** on GitHub). The build runs once the change is merged into `main`.
+
+**Option B: on your own computer.** Install [Claude Code](https://claude.com/claude-code) and get a copy of your repository:
+
+- No git experience: install [GitHub Desktop](https://desktop.github.com/), sign in, and choose **File → Clone repository**. Its **Push origin** and **Fetch / Pull origin** buttons do the pushing and pulling for you.
+- Comfortable with a terminal:
+
+  ```bash
+  git clone git@github.com:<you>/<your-repo>.git
+  cd <your-repo>
+  ```
+
+Then open Claude Code in that folder.
+
+### 4. Write your master resume with Claude
+
+The skills in `.claude/skills/` load automatically. Say something like:
 
 - "Help me build my master resume. Here's my LinkedIn profile: …" or "My old resume is in `old_resume.docx`."
 - "Ask me questions about each role so we can add more detail."
@@ -64,7 +86,7 @@ Open Claude Code in the repository folder. The skills in `.claude/skills/` load 
 
 The coach asks numbered questions, and you answer in rough notes. It keeps your phrasing, never invents facts, and asks before big changes. When the file is in good shape, ask it to commit and push.
 
-### 4. Apply for a job
+### 5. Apply for a job
 
 Share the posting:
 
@@ -77,17 +99,19 @@ The tailor-application skill will:
 4. Draft the tailored resume and cover letter in `applications/<folder>/`.
 5. After you push, check the built PDF.
 
-### 5. Get your files
+### 6. Get your files
 
-Each push that changes a resume or cover letter runs the build. About a minute later:
+Each change to a resume or cover letter on `main` runs the build. About a minute later you'll find `resume.docx`, `resume.pdf`, `resume.txt` and the cover letter equivalents next to the Markdown. The master and public resumes build into `build/`. See `docs/ats-and-workday.md` for which file to upload where.
 
-```bash
-git pull
-```
+To download them:
 
-You'll find `resume.docx`, `resume.pdf`, `resume.txt` and the cover letter equivalents next to the Markdown. The master and public resumes build into `build/`. See `docs/ats-and-workday.md` for which file to upload where.
+- **On GitHub:** open the file in your repository and click the download button (**Download raw file**) at the top right.
+- **GitHub Desktop:** click **Fetch origin**, then **Pull origin**.
+- **Terminal:** `git pull`.
 
-**Always `git pull` before your next edit**, or your next push will be rejected because the build added a commit.
+If you work on your own computer, **always pull before your next edit**, or your next push will be rejected because the build added a commit. (In the browser option, Claude handles this.)
+
+You can check on a build in your repository's **Actions** tab. A green tick means it finished; a red cross means something went wrong, and you can paste the error to Claude.
 
 ## Building locally (optional)
 
@@ -95,11 +119,36 @@ You don't need to install anything; GitHub builds for you. If you want to build 
 
 - Install [pandoc](https://pandoc.org/installing.html). On Windows: `winget install JohnMacFarlane.Pandoc`. On a Mac: `brew install pandoc`.
 - For PDFs, also install [WeasyPrint](https://doc.courtbouillon.org/weasyprint/stable/first_steps.html). This is easy on Mac and Linux and fiddly on Windows; the script skips PDFs if it isn't installed.
-- Run `scripts/build.sh` from Git Bash or a terminal.
+- Run `scripts/build.sh` from Git Bash (installed with [Git for Windows](https://git-scm.com/download/win)) or a terminal.
+
+## Using it with Codex or ChatGPT
+
+The two skills are plain instructions in the open [Agent Skills](https://agentskills.io) format (a folder with a `SKILL.md`), and nothing in them is specific to Claude. Other assistants can follow them, with some setup.
+
+### Codex
+
+[Codex](https://developers.openai.com/codex/skills) reads skills from `.agents/skills/` in a repository, not `.claude/skills/`. Copy them across once in your own repository:
+
+```bash
+mkdir -p .agents
+cp -r .claude/skills .agents/skills
+```
+
+Commit the copy, then use the skills the same way: ask Codex to build your master resume or tailor an application, or name a skill directly with `$resume-coach` or `$tailor-application`. Codex can edit, commit and push like Claude Code, so the rest of this README applies unchanged. If you later edit a skill, edit both copies (or delete the one you don't use).
+
+### ChatGPT
+
+ChatGPT [supports skills](https://help.openai.com/en/articles/20001066) on some plans (Business, Enterprise, Edu and similar at the time of writing; check the article for yours). Upload each skill folder under **Skills → New skill**. ChatGPT can't commit to your repository, so the workflow is more manual:
+
+1. Give it your files: upload `master_resume.md`, `docs/writing-guide.md` and `docs/ats-and-workday.md` to the chat (or a ChatGPT Project so they stay put).
+2. Ask it to build your resume or tailor an application, as above.
+3. Copy what it writes back into the matching file on github.com (pencil icon → paste → **Commit changes**). The build then makes your Word, PDF and text files as usual.
+
+On a plan without skills, make a ChatGPT Project, paste the contents of the `SKILL.md` you want into the Project's instructions, and upload the same files. It works the same way, just without automatic skill selection.
 
 ## Using it without Claude
 
-Everything except the coaching works on its own: edit the Markdown, run `scripts/new-application.sh "Company" "Role"`, push, pull your files. The two `SKILL.md` files also work as plain checklists for doing it by hand or with another AI assistant.
+Everything except the coaching works on its own: edit the Markdown (you can even do this on github.com, using the pencil icon on any file), run `scripts/new-application.sh "Company" "Role"`, push, pull your files. The two `SKILL.md` files also work as plain checklists for doing it by hand.
 
 ## Customizing
 
