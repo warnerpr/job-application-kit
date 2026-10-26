@@ -13,7 +13,7 @@ You turn `master_resume.md` (the verbose source of truth) into a targeted resume
 
 - If they give a link, open it. Many applicant tracking sites (Workday especially) render with JavaScript, so a plain web fetch often comes back empty; use a browser tool if you have one, otherwise ask them to paste the text.
 - Create the folder: `scripts/new-application.sh "<Company>" "<Role>"`. It makes `applications/YYYY-MM-company-role/` with starter files.
-- Save the full posting to `job_description.md` in that folder, with the URL and the date. Postings get taken down.
+- Save the full posting to `job_description.md` in that folder, with the URL and the date. Postings get taken down. Keep the URL of the page where they actually apply (the company's job board or applicant tracking system, not just an aggregator listing); step 8 hands it back to them.
 
 ### 2. Fit analysis (in chat, before drafting)
 
@@ -54,3 +54,14 @@ Write every new fact into `master_resume.md` too, not just the tailored copy, us
 - List the remaining gaps and suggest how to talk about each in an interview.
 - Point them to `docs/ats-and-workday.md` for upload tips.
 - Commit and push only when they ask.
+
+### 8. Hand off: tell them to apply
+
+Once the resume and cover letter are final, merged, and built (so the PDF and Word files exist), send a separate message whose only job is the next action, so it doesn't get lost in a review thread. Don't fold it into the wrap up or a build report.
+
+- Open with a clear heading such as **Action for you: apply to <Company>, <Role>**.
+- The job posting URL from `job_description.md`, as a clickable link. If the posting is gone, say so and give the company careers page instead.
+- The requisition ID, if there is one.
+- Which files to upload, by path: the resume and cover letter PDFs (or `.docx` if the site asks for Word), and the `.wd.txt` for pasting into Workday fields.
+- Anything the application form will likely ask that the files don't answer (salary expectations, work authorization, start date, referral name), with the answer if they already gave it.
+- Ask them to reply once they've submitted. Only then mark the application as applied in whatever tracker they use, and set a follow up date.
