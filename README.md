@@ -1,6 +1,6 @@
 # Job Application Kit
 
-Keep your resume as plain Markdown in a private GitHub repository, tailor it for each job, and let GitHub build the Word, PDF and text versions for you. Two [Claude Code](https://claude.com/claude-code) skills coach you through writing it in your own voice.
+Keep your resume as plain Markdown in a private GitHub repository, tailor it for each job, and let GitHub build the Word, PDF and text versions for you. Two [Claude Code](https://claude.com/claude-code) skills coach you through writing it in your own voice, and a third builds a slide deck and talk track for your interviews.
 
 ## The idea
 
@@ -28,11 +28,13 @@ master_resume.md ──(tailor-application skill)──▶ applications/<job>/re
 | `footer.md.example` | Optional "built with" footer. Copy to `footer.md` to turn it on. |
 | `.claude/skills/resume-coach/` | Skill: builds and reviews your master resume with you. |
 | `.claude/skills/tailor-application/` | Skill: tailors a resume and writes a cover letter for one job. |
+| `.claude/skills/interview-slides/` | Skill: builds a speaking-guide slide deck and printable notes for an interview. |
 | `docs/writing-guide.md` | Voice, style and honesty rules the skills follow. Edit to taste. |
 | `docs/ats-and-workday.md` | How applicant tracking systems read your resume, and upload tips. |
 | `docs/publishing.md` | Setting up the optional website. |
 | `scripts/build.sh` | Builds `.txt`, `.docx`, `.pdf`. Runs in GitHub Actions (only for the files a push changed); can run locally, for everything or for the files you name. |
 | `scripts/new-application.sh` | Creates a new application folder. |
+| `scripts/slides.sh` | Builds interview slides (`*slides.md`) into an HTML deck and a printable notes PDF. Runs in GitHub Actions too. |
 | `.github/workflows/build.yml` | Builds the documents each push changed and commits them back. |
 | `.github/workflows/publish.yml` | Publishes the website. Off until you set it up. |
 
@@ -99,6 +101,14 @@ The tailor-application skill will:
 4. Draft the tailored resume and cover letter in `applications/<folder>/`.
 5. After you push, check the built PDF.
 
+### Before an interview
+
+Ask for a deck:
+
+- "Make me slides for my interview with the hiring manager on Thursday. I keep getting sidetracked telling my story."
+
+The interview-slides skill writes `applications/<folder>/interview_slides.md`: a few intro slides that tell your story as one thread, a slide for each main requirement in the posting, your gaps and how you'd ramp, and questions for them. Each slide has short cues on screen and your talking points in speaker notes. The build turns it into `interview_slides.html` to share on screen (press S for speaker view) and `interview_slides.notes.pdf` to print.
+
 ### 6. Get your files
 
 Each change to a resume or cover letter on `main` runs the build. About a minute later you'll find `resume.docx`, `resume.pdf`, `resume.txt` and the cover letter equivalents next to the Markdown. The master and public resumes build into `build/`. See `docs/ats-and-workday.md` for which file to upload where.
@@ -123,7 +133,7 @@ You don't need to install anything; GitHub builds for you. If you want to build 
 
 ## Using it with Codex or ChatGPT
 
-The two skills are plain instructions in the open [Agent Skills](https://agentskills.io) format (a folder with a `SKILL.md`), and nothing in them is specific to Claude. Other assistants can follow them, with some setup.
+The skills are plain instructions in the open [Agent Skills](https://agentskills.io) format (a folder with a `SKILL.md`), and nothing in them is specific to Claude. Other assistants can follow them, with some setup.
 
 ### Codex
 

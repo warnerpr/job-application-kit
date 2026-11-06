@@ -1,0 +1,83 @@
+/* "pipeline" style for scripts/slides.sh (inlined into each deck): the deck
+   is a CI pipeline run. A bar across the top shows each section as a stage
+   and each slide as a job: passed, running or pending. */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600;700&display=swap');
+
+:root {
+  --bg: #ffffff;
+  --panel: #f6f8fa;
+  --border: #d0d7de;
+  --text: #1f2328;
+  --muted: #656d76;
+  --passed: #1a7f37;
+  --running: #0969da;
+  --pending: #8c959f;
+  --accent: #bf8700;
+  --bar-height: 74px;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", Menlo, Consolas, monospace;
+}
+
+html, body, .reveal-viewport { background: var(--bg); }
+
+/* The pipeline bar */
+.pl-bar {
+  position: fixed; top: 0; left: 0; right: 0; height: var(--bar-height); z-index: 30;
+  background: var(--panel); border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 0; padding: 0 24px; font-family: var(--mono);
+}
+.pl-run { font-size: 13px; color: var(--muted); margin-right: 28px; white-space: nowrap; line-height: 1.5; }
+.pl-run b { color: var(--text); font-weight: 600; }
+.pl-status { display: inline-block; font-size: 11px; font-weight: 600; padding: 1px 8px; border-radius: 10px; color: #fff; background: var(--running); margin-left: 6px; }
+.pl-status.passed { background: var(--passed); }
+.pl-stages { display: flex; align-items: center; flex: 1; min-width: 0; }
+.pl-stage { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+.pl-stage-name { font-size: 12px; color: var(--muted); text-transform: lowercase; }
+.pl-stage.current .pl-stage-name { color: var(--text); font-weight: 600; }
+.pl-jobs { display: flex; gap: 6px; }
+.pl-link { width: 34px; height: 2px; background: var(--border); margin: 18px 10px 0; flex: none; }
+.pl-link.done { background: var(--passed); }
+.pl-job {
+  width: 20px; height: 20px; border-radius: 50%; box-sizing: border-box; cursor: pointer;
+  border: 2px solid var(--pending); background: #fff; position: relative;
+}
+.pl-job.passed { border-color: var(--passed); background: var(--passed); }
+.pl-job.passed::after {
+  content: ""; position: absolute; left: 5px; top: 2px; width: 5px; height: 9px;
+  border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg);
+}
+.pl-job.running { border-color: var(--running); border-top-color: transparent; animation: pl-spin 1.2s linear infinite; }
+@keyframes pl-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .pl-job.running { animation: none; border-top-color: var(--running); } }
+
+/* The deck sits under the bar */
+.reveal {
+  position: fixed !important; top: var(--bar-height); left: 0; right: 0; bottom: 0;
+  width: auto !important; height: auto !important;
+}
+.reveal { font-family: var(--sans); font-size: 30px; color: var(--text); }
+.reveal .slides { text-align: left; }
+.reveal h1, .reveal h2, .reveal h3 {
+  font-family: var(--sans); text-transform: none; letter-spacing: 0; color: var(--text); font-weight: 700;
+}
+.reveal h2 { font-size: 1.3em; margin: 0 0 .6em; }
+.reveal strong { font-weight: 700; }
+.reveal code { font-family: var(--mono); background: var(--panel); border: 1px solid var(--border); border-radius: 4px; padding: 0 4px; }
+
+/* Job label above each slide title, like a CI job header */
+.pl-kicker { font-family: var(--mono); font-size: .5em; color: var(--muted); margin-bottom: .5em; }
+.pl-kicker .pl-dot { display: inline-block; width: .7em; height: .7em; border-radius: 50%; background: var(--running); margin-right: .5em; vertical-align: -.05em; }
+
+.reveal ul { display: block; list-style: none; margin-left: 0; padding-left: 0; }
+.reveal ul li { margin: .35em 0; line-height: 1.35; padding-left: 1.1em; position: relative; }
+.reveal ul li::before { content: "›"; position: absolute; left: .1em; top: -.05em; color: var(--passed); font-family: var(--mono); font-weight: 600; }
+
+/* Title and section slides: a terminal-like run log */
+.reveal #title-slide, .reveal section.level1 { text-align: left; }
+.reveal #title-slide h1, .reveal section.level1 > h1 { color: #fff; font-size: 1.9em; }
+.reveal #title-slide .subtitle, .reveal #title-slide .date { color: #c9d1d9; font-size: .7em; font-weight: 400; }
+.pl-log { font-family: var(--mono); font-size: .5em; color: #8b949e; margin-bottom: 1.2em; line-height: 1.6; }
+.pl-log .ok { color: #3fb950; }
+.pl-log .run { color: #58a6ff; }
+
+.reveal .progress { display: none !important; }

@@ -1,0 +1,33 @@
+/* Printable speaker notes for scripts/slides.sh (<name>.notes.pdf): each
+   slide's title and on-screen cues in small type, then its notes, larger. */
+@page {
+  size: Letter; margin: 0.6in 0.7in 0.7in;
+  @bottom-right { content: counter(page) " / " counter(pages); font: 8pt "DejaVu Sans", Arial, sans-serif; color: #888; }
+}
+body { font: 11pt/1.45 "DejaVu Sans", Arial, sans-serif; color: #1f2328; counter-reset: slide 1; }
+header#title-block-header { border-bottom: 2px solid #1f2328; padding-bottom: 6pt; margin-bottom: 10pt; }
+.title { font-size: 18pt; margin: 0; }
+.subtitle, .date { margin: 2pt 0; color: #555; font-size: 10pt; font-weight: normal; }
+
+section.level1 > h1, section.level2 > h2 { counter-increment: slide; break-after: avoid; }
+section.level1 > h1::before, section.level2 > h2::before {
+  content: counter(slide); display: inline-block; min-width: 1.6em; margin-right: 6pt;
+  padding: 0 4pt; border-radius: 3pt; background: #1f2328; color: #fff; font-size: .8em; text-align: center;
+}
+section.level1 > h1 { font-size: 15pt; margin: 16pt 0 6pt; padding-top: 6pt; border-top: 1px solid #d0d7de; }
+section.level2 { margin-bottom: 12pt; }
+section > ul { break-inside: avoid; }
+header + section.level1 > h1 { border-top: none; padding-top: 0; }
+section.level2 > h2 { font-size: 12.5pt; margin: 10pt 0 3pt; }
+
+/* On-screen cues: small and gray */
+section > ul, section > p { font-size: 8.5pt; color: #656d76; margin: 2pt 0 4pt 0; }
+section > ul { padding-left: 14pt; }
+section > ul li { margin: 0; }
+
+/* Speaker notes: the main content */
+.notes { border-left: 3pt solid #1a7f37; padding: 2pt 0 2pt 9pt; margin: 4pt 0 6pt; }
+.notes p, .notes ul, .notes ol { margin: 3pt 0; }
+.notes ul, .notes ol { padding-left: 16pt; }
+.notes li { margin: 1.5pt 0; }
+code { font-family: "DejaVu Sans Mono", monospace; font-size: .9em; }
