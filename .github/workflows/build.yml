@@ -1,7 +1,8 @@
 name: Build documents
 
-# Turns resumes and cover letters into .txt, .docx and .pdf, then commits the
-# results back to the repository. Run `git pull` afterwards to get them.
+# Turns resumes and cover letters into .txt, .docx and .pdf, and *slides.md
+# files into HTML slide decks, then commits the results back to the
+# repository. Run `git pull` afterwards to get them.
 # A push rebuilds only the Markdown files it changed; a change to the footer,
 # the build scripts or this workflow (or a manual run) rebuilds everything.
 on:
@@ -15,6 +16,7 @@ on:
       - 'scripts/build.sh'
       - 'scripts/wd_txt.py'
       - 'scripts/pdf.css'
+      - 'scripts/slides*'
       - '.github/workflows/build.yml'
   workflow_dispatch:
 
@@ -47,7 +49,7 @@ jobs:
           [ "$GITHUB_EVENT_NAME" = push ] || everything "manual run"
           git cat-file -e "$BEFORE^{commit}" 2>/dev/null || everything "no previous commit"
           changed="$(git diff --name-only --diff-filter=d "$BEFORE" HEAD)"
-          grep -qxE 'footer\.md|scripts/(build\.sh|wd_txt\.py|pdf\.css)|\.github/workflows/build\.yml' <<<"$changed" &&
+          grep -qxE 'footer\.md|scripts/(build\.sh|wd_txt\.py|pdf\.css|slides[^/]*)|\.github/workflows/build\.yml' <<<"$changed" &&
             everything "shared build input changed"
           mapfile -t docs < <(grep -E '\.md$' <<<"$changed" || true)
           [ ${#docs[@]} -gt 0 ] || { echo "No documents changed"; exit 0; }

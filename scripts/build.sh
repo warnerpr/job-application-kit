@@ -4,7 +4,9 @@
 #   master_resume.md, public_resume.md  -> build/
 #   applications/<folder>/*.md          -> next to each file
 #
-# README.md and job_description.md files are skipped. Tailored resumes also get
+# README.md and job_description.md files are skipped, and *slides.md files
+# become HTML slide decks plus printable notes PDFs (scripts/slides.sh).
+# Tailored resumes also get
 # a Workday-style <name>.wd.txt (scripts/wd_txt.py, needs python3).
 # If footer.md exists, it is appended to every document (and the website).
 # Needs pandoc. PDF also needs weasyprint; without it, PDFs are skipped.
@@ -67,6 +69,7 @@ build_one() {  # build_one <source.md>; ignores files that aren't documents
   [ -f "$md" ] || return 0
   case "$md" in
     README.md|*/README.md|*/job_description.md) return 0 ;;
+    *slides.md) bash scripts/slides.sh "$md" ;;
     applications/*.md) build "$md" "${md%.md}" ;;
     *) for root in $root_docs; do
          [ "$md" = "$root" ] && { mkdir -p build; build "$md" "build/${md%.md}"; }
